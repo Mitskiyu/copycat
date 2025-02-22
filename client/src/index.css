@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+@font-face {
+	font-family: Kodenmachou;
+	src: url("./assets/fonts/KH-Dot-Kodenmachou-12.ttf");
+}
+
+@theme {
+	--font-koden: "Kodenmachou", "sans-serif";
+}
