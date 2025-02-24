@@ -6,6 +6,14 @@ const hoverStyle =
 
 export default function Header() {
 	const pathname = useLocation().pathname;
+	const handleScroll = (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+
+		const features = document.getElementById("features");
+		if (features) {
+			features.scrollIntoView({ behavior: "smooth" });
+		}
+	};
 
 	return (
 		<>
@@ -38,9 +46,20 @@ export default function Header() {
 						<Link to="/about">about</Link>
 					</li>
 					<li className={`${hoverStyle}`}>
-						<Link to="/" hash="features">
-							features
-						</Link>
+						{pathname === "/about" ? (
+							<Link to="/" hash="features">
+								features
+							</Link>
+						) : (
+							<button
+								onClick={(e) => {
+									handleScroll(e);
+								}}
+								className="cursor-pointer"
+							>
+								features
+							</button>
+						)}
 					</li>
 				</ul>
 			</header>
