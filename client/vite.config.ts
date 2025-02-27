@@ -10,4 +10,7 @@ export default defineConfig({
 		react(),
 		tailwindcss(),
 	],
+	build: {
+		outDir: "../internal/server/dist",
+	},
 });
