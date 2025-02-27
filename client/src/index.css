@@ -7,6 +7,12 @@
 
 @theme {
 	--font-koden: "Kodenmachou", "sans-serif";
-	--color-primary: #9ceeff;
-	--color-secondary: #8a8a8a;
+	--color-primary: #45bee9;
+	--color-secondary: #a1a0a4;
+}
+
+@layer base {
+	html {
+		background-color: #c9c9c9;
+	}
 }
