@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+import { handleUpload } from "../lib/handle-upload";
 import nukoPeekTop from "../assets/gifs/nukoPeekTop.gif";
 
 interface DropzoneProps {
@@ -12,7 +13,7 @@ export default function Dropzone({ title, subtitle }: DropzoneProps) {
 		const file = acceptedFiles[0];
 		if (!file) return;
 
-		//TODO handleUpload
+		handleUpload(file);
 	}, []);
 
 	const { getRootProps, getInputProps } = useDropzone({
