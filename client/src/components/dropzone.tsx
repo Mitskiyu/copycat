@@ -1,6 +1,7 @@
 import { useCallback } from "react";
-import { useDropzone } from "react-dropzone";
+import { useDropzone, FileRejection } from "react-dropzone";
 import { handleUpload } from "../lib/handle-upload";
+import toast from "react-hot-toast";
 import nukoPeekTop from "../assets/gifs/nukoPeekTop.gif";
 
 interface DropzoneProps {
@@ -11,19 +12,45 @@ interface DropzoneProps {
 export default function Dropzone({ title, subtitle }: DropzoneProps) {
 	const onDrop = useCallback((acceptedFiles: File[]) => {
 		const file = acceptedFiles[0];
-		if (!file) return;
+		if (file) {
+			try {
+				handleUpload(file);
+			} catch {
+				toast.error("something went wrong");
+			}
+		}
+	}, []);
 
-		handleUpload(file);
+	const onDropRejected = useCallback((fileRejections: FileRejection[]) => {
+		fileRejections.forEach(({ errors }) => {
+			errors.forEach((error) => {
+				switch (error.code) {
+					case "file-invalid-type":
+						toast.error("i can only accept jpg, png and gif files!");
+						break;
+					case "file-too-large":
+						toast.error("i can only accept files smaller than 10MB!");
+						break;
+					case "too-many-files":
+						toast.error("i can only process one file at a time!");
+						break;
+					default:
+						toast.error("something went wrong");
+				}
+			});
+		});
 	}, []);
 
 	const { getRootProps, getInputProps } = useDropzone({
 		onDrop,
+		onDropRejected,
 		accept: {
 			"image/jpeg": [".jpg", ".jpeg", ".jfif", ".pjpeg", ".pjp"],
 			"image/png": [".png"],
 			"image/gif": [".gif"],
 		},
 		maxSize: 10485760,
+		maxFiles: 1,
 	});
 
 	return (
